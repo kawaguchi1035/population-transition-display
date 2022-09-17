@@ -1,0 +1,22 @@
+/* ウィンドウ幅が0〜479px(一般的なスマホ幅)の場合に適用するCSS */
+/* @media screen and ( max-width:479px ) */
+/* TODO スマホ表示対応テスト設定切り替え(上記コメントアウトへ変更) */
+@media screen and ( max-width:700px )
+{
+	div.main
+	{
+		display: block;
+	}
+
+  /* チェックボックス表示設定 */
+  div.checkbox-area
+  {
+    margin: 0 auto;
+  }
+
+  /* グラフ表示設定 */
+  div.graph-area
+  {
+    margin: 0 auto;
+  }
+}

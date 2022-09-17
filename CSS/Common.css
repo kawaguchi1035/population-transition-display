@@ -1,0 +1,45 @@
+/* タイトル設定 */
+div.title
+{
+  width: auto;
+  line-height: normal;
+  background-color: #a9a9a9;
+}
+
+div.title p
+{
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+}
+
+/* メイン表示設定 */
+div.main
+{
+  display: flex;
+  justify-content: center;
+}
+
+/* チェックボックス表示設定 */
+div.checkbox-area
+{
+  /* TODO 可視表示用設定削除 */
+  width: 479px;
+  border: 2px solid black;
+}
+
+/* グラフ表示設定 */
+div.graph-area
+{
+  /* TODO 可視表示用設定削除 */
+  width: 479px;
+  border: 2px solid black;
+}
+
+/* 共通 - 右端余白 */
+.mr-10
+{
+  margin-right: 10px;
+}
