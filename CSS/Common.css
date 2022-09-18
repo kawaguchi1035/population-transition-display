@@ -6,13 +6,14 @@ div.title
   background-color: #a9a9a9;
 }
 
-div.title p
+div.title h2
 {
-  height: 40px;
+  height: 50px;
   display: flex;
   align-items: center;
   justify-content: center;
   font-weight: bold;
+  margin: 5px;
 }
 
 /* メイン表示設定 */
@@ -28,6 +29,11 @@ div.checkbox-area
   /* TODO 可視表示用設定削除 */
   width: 479px;
   border: 2px solid black;
+}
+
+div.checkbox-area p
+{
+  margin: 5px 0px;
 }
 
 /* グラフ表示設定 */
