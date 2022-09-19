@@ -9,6 +9,8 @@
 
         <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
         <script src="https://unpkg.com/vue@next"></script>
+        <script src="https://code.highcharts.com/highcharts.js"></script>
+        <script src="https://code.highcharts.com/modules/accessibility.js"></script>
 
         <title>都道府県別の総人口推移グラフ表示</title>
     </head>
@@ -19,7 +21,7 @@
                 <p>都道府県</p>
                 <div class="checkbox-group" v-html="checkbox"></div>
             </div>
-            <div class="graph-area mr-10 mt-10">ここにグラフを表示</div>
+            <div id="container" class="graph-area mr-10 mt-10"></div>
         </div>
         <script src="../JS/Index.js"></script>
     </body>
