@@ -36,6 +36,12 @@ div.checkbox-area p
   margin: 5px 0px;
 }
 
+div.checkbox-group
+{
+  display: grid;
+  grid-template-columns: 100px 100px 100px 100px;
+}
+
 /* グラフ表示設定 */
 div.graph-area
 {
@@ -48,4 +54,10 @@ div.graph-area
 .mr-10
 {
   margin-right: 10px;
+}
+
+/* 共通 - 下端余白 */
+.mt-10
+{
+  margin-bottom: 10px;
 }
