@@ -26,7 +26,6 @@ div.main
 /* チェックボックス表示設定 */
 div.checkbox-area
 {
-  /* TODO 可視表示用設定削除 */
   width: 479px;
   border: 2px solid black;
 }
@@ -45,7 +44,6 @@ div.checkbox-group
 /* グラフ表示設定 */
 div.graph-area
 {
-  /* TODO 可視表示用設定削除 */
   width: 479px;
   height: 400px;
   padding-top: 10px;
