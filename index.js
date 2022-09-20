@@ -25,6 +25,7 @@ Vue.createApp({
         }
 
         if (this.checkedFlag) {
+            // 都道府県別人口構成情報取得
             this.getPopulationInfo();
             this.checkedFlag = false;
         }
