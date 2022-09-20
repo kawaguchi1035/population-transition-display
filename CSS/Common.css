@@ -48,7 +48,7 @@ div.graph-area
   /* TODO 可視表示用設定削除 */
   width: 479px;
   height: 400px;
-  padding: 10px;
+  padding-top: 10px;
   border: 2px solid black;
 }
 

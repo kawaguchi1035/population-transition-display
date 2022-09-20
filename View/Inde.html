@@ -19,7 +19,16 @@
         <div id="app" class="main">
             <div class="checkbox-area mr-10 mt-10">
                 <p>都道府県</p>
-                <div class="checkbox-group" v-html="checkbox"></div>
+                <div class="checkbox-group">
+                    <label v-for="(item, idx) in items" :key="idx">
+                        <input
+                            type="checkbox"
+                            v-model="item.checked"
+                            @change="changed(item, idx)"
+                        />
+                        {{ item.name }}
+                    </label>
+                </div>
             </div>
             <div id="container" class="graph-area mr-10 mt-10"></div>
         </div>
