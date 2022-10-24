@@ -5,12 +5,18 @@ Vue.createApp({
             apiKey: "EUVcEdOF1bm9b7heQZETPE7LaTaQrfNPdhZVCCPY",
             prefectures: [],
             populationInfo: [],
+            yearList: [],
+            chartObj: "",
             beforeUpdateFlag: false,
             checkedFlag: false,
+            isUnCheck: false,
             getPopulationFlag: false,
+            isFirst: true,
             items: [],
+            removeTarget: 99,
             resasApiUrl: "",
             selectPrefName: "",
+            populationList: [],
         };
     },
     mounted() {
@@ -29,12 +35,37 @@ Vue.createApp({
             this.getPopulationInfo();
             this.checkedFlag = false;
         }
+
+        // チェックが外れた場合
+        if (this.isUnCheck) {
+            // チェック0の場合処理せず(グラフ変形を防ぐため)
+            if (this.removeTarget == 0) {
+                return;
+            }
+            // 対象をグラフから削除する
+            this.chartObj.series[this.removeTarget].remove();
+            this.isUnCheck = false;
+        }
     },
     updated() {
         if (this.getPopulationFlag) {
-            // 都道府県別の人口情報をグラフ表示
-            this.createGraph();
             this.getPopulationFlag = false;
+
+            // グラフ生成用リスト作成
+            this.generatePopulationInfo();
+
+            // 都道府県別の人口情報をグラフ表示
+            if (this.isFirst) {
+                // 初回グラフ作成
+                this.createGraph();
+                this.isFirst = false;
+            } else {
+                // 2回目以降のグラフ描画
+                this.chartObj.addSeries({
+                    name: this.selectPrefName,
+                    data: Array.from(this.populationList),
+                });
+            }
         }
     },
 
@@ -81,20 +112,27 @@ Vue.createApp({
             }
         },
 
-        async createGraph() {
+        generatePopulationInfo() {
             // 年リスト、人口リスト生成
-            let yearList = [];
-            let populationList = [];
+            let tempYearList = [];
+            let tempPopulationList = [];
 
             this.populationInfo[0].data.forEach(function (value, index) {
                 // 2030年まで10年毎に値取得 (2022/09時点:1965～2045)
                 if (index % 2 == 0 && value.year <= "2030") {
-                    yearList.push(value.year);
-                    populationList.push(value.value);
+                    tempYearList.push(value.year);
+                    tempPopulationList.push(value.value);
                 }
             });
 
-            Highcharts.chart("container", {
+            this.yearList = tempYearList;
+            this.populationList = tempPopulationList;
+        },
+
+        async createGraph() {
+            console.log("createGraph");
+
+            this.chartObj = Highcharts.chart("container", {
                 chart: {
                     height: 400,
                     marginTop: 80,
@@ -111,7 +149,7 @@ Vue.createApp({
                         x: 10,
                         y: 20,
                     },
-                    categories: yearList,
+                    categories: this.yearList,
                 },
                 yAxis: {
                     title: {
@@ -140,7 +178,7 @@ Vue.createApp({
                 series: [
                     {
                         name: this.selectPrefName,
-                        data: Array.from(populationList),
+                        data: Array.from(this.populationList),
                     },
                 ],
                 responsive: {
@@ -163,13 +201,20 @@ Vue.createApp({
         },
 
         changed: function (item, idx) {
+            let checkCount = 0;
+
             // チェックボックスにチェックがある時のみ都道府県情報取得
             if (item.checked) {
                 for (let i = 0; i < this.items.length; i++) {
-                    // 選択チェックボックス以外をオフ
-                    if (i !== idx) {
-                        this.items[i].checked = false;
+                    if (this.items[i].checked) {
+                        checkCount = checkCount + 1;
                     }
+                }
+
+                // チェック上限制限(3つ)
+                if (3 < checkCount) {
+                    item.checked = false;
+                    return;
                 }
 
                 // RESAS API呼び出しのURL生成
@@ -180,6 +225,21 @@ Vue.createApp({
                 // 選択された都道府県名を取得
                 this.selectPrefName = String(item.name);
                 this.checkedFlag = true;
+            } else {
+                // チェックボックスのチェックを外した場合
+                this.isUnCheck = true;
+
+                // チェックが外れたチェックボックスを検知
+                for (let i = 0; i < this.chartObj.series.length; i++) {
+                    if (this.chartObj.series[i].name == item.name) {
+                        this.removeTarget = i;
+                    }
+                }
+
+                // チェック0無効(グラフ変形を防ぐため)
+                if (this.removeTarget == 0) {
+                    item.checked = true;
+                }
             }
             this.$forceUpdate();
         },
